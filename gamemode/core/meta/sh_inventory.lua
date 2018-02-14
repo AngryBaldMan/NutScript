@@ -214,6 +214,22 @@ function META:remove(id, noReplication, noDelete)
 	return x2, y2
 end
 
+function META:removeItems(id, amount)
+	local items = self:getItemsByUniqueID(id)
+
+	if #items == 0 then return end
+
+	local itemsDeleted = 0
+	
+		for k, v in pairs(items) do
+			if itemsDeleted == amount then break end
+
+			v:remove()
+			itemsDeleted = itemsDeleted + amount
+		end
+
+end
+
 function META:getReceiver()
 	for k, v in ipairs(player.GetAll()) do
 		if (v:getChar() and v:getChar().id == self.owner) then
